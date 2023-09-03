@@ -12,14 +12,13 @@ spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
 
-# Script generated for node S3 bucket
+
 S3bucket_node1 = glueContext.create_dynamic_frame.from_catalog(
     database="temperature-raw-db",
     table_name="raw_globallandtemperaturesbycountry_csv",
     transformation_ctx="S3bucket_node1",
 )
 
-# Script generated for node trusted-temperature
 trustedtemperature_node2 = ApplyMapping.apply(
     frame=S3bucket_node1,
     mappings=[
@@ -36,7 +35,6 @@ trustedtemperature_node2 = ApplyMapping.apply(
     transformation_ctx="trustedtemperature_node2",
 )
 
-# Script generated for node S3 bucket
 S3bucket_node3 = glueContext.write_dynamic_frame.from_options(
     frame=trustedtemperature_node2,
     connection_type="s3",
